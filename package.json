@@ -1,7 +1,26 @@
 {
   "name": "yourday",
   "private": true,
+  "type": "module",
   "engines": { "node": ">=20" },
   "workspaces": ["apps/*", "packages/*"],
-  "scripts": { "dev": "echo 'todo: set up turbo or pnpm -r dev'" }
+  "scripts": {
+    "dev": "concurrently -r \"pnpm --filter api dev\" \"pnpm --filter worker dev\" \"pnpm --filter web dev\"",
+    "build": "pnpm -r build",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "prisma": "^5.15.0",
+    "typescript": "^5.4.0",
+    "ts-node": "^10.9.1",
+    "vitest": "^1.5.0",
+    "supertest": "^6.3.0",
+    "eslint": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "prettier": "^3.2.5",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.0"
+  }
 }

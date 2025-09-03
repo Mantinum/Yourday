@@ -1,0 +1,7 @@
+{
+  "extends": "@yourday/config/tsconfig",
+  "include": ["src"],
+  "compilerOptions": {
+    "outDir": "dist"
+  }
+}

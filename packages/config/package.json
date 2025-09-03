@@ -1,0 +1,13 @@
+{
+  "name": "@yourday/config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    "./tsconfig": "./tsconfig.json",
+    "./eslint": "./eslint-config.js",
+    "./prettier": "./prettier.config.js",
+    "./vitest": "./vitest.config.ts"
+  }
+}
