@@ -1,0 +1,7 @@
+{
+  "name": "yourday",
+  "private": true,
+  "engines": { "node": ">=20" },
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": { "dev": "echo 'todo: set up turbo or pnpm -r dev'" }
+}
