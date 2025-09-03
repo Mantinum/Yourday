@@ -3,5 +3,9 @@
   "private": true,
   "engines": { "node": ">=20" },
   "workspaces": ["apps/*", "packages/*"],
-  "scripts": { "dev": "echo 'todo: set up turbo or pnpm -r dev'" }
+  "scripts": {
+    "dev": "echo 'todo: run all apps'",
+    "build": "echo 'build placeholder'",
+    "test": "echo 'test placeholder'"
+  }
 }

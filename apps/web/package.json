@@ -1,0 +1,13 @@
+{
+  "name": "@yourday/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "echo 'next dev stub'"
+  },
+  "dependencies": {
+    "next": "14.0.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0"
+  }
+}

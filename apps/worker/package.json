@@ -1,0 +1,14 @@
+{
+  "name": "@yourday/worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "echo 'worker start stub'"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "bullmq": "^2.0.0",
+    "ioredis": "^5.0.0"
+  }
+}
