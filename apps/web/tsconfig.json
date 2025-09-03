@@ -1,0 +1,9 @@
+{
+  "extends": "@yourday/config/tsconfig",
+  "include": ["next-env.d.ts", "pages"],
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "noEmit": true
+  }
+}
