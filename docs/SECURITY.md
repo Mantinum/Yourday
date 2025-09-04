@@ -1,7 +1,7 @@
 # Security
 
 ## Supabase JWT
-Auth tokens should be verified against Supabase JWKS (`SUPABASE_JWKS_URL`). In development the API accepts an `X-User-Id` header and defaults to a stubbed user id when none is provided.
+Auth tokens should be verified against Supabase JWKS (`SUPABASE_JWKS_URL`). In development the API accepts an `X-User-Id` header and defaults to a stubbed user id when none is provided. Public endpoints `/health` and `/status` do not require auth and return an `X-Env` header indicating the environment.
 
 ## Job idempotence
 Worker jobs are queued with deterministic ids (`reco:${eventId}:${yyyy-mm-dd}`) and each execution is recorded in `AuditLog` to prevent duplicates.

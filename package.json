@@ -4,8 +4,11 @@
   "engines": { "node": ">=20" },
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
-    "dev": "echo 'todo: run all apps'",
-    "build": "echo 'build placeholder'",
-    "test": "echo 'test placeholder'"
+    "db:migrate": "pnpm prisma migrate dev",
+    "db:seed": "pnpm exec ts-node prisma/seed.ts",
+    "dev": "pnpm -w dev",
+    "build": "pnpm -w build",
+    "test": "pnpm -w test",
+    "start:worker": "pnpm --filter @yourday/worker start"
   }
 }

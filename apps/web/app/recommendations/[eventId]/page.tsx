@@ -9,7 +9,11 @@ export default function RecommendationsPage() {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/recommendations?eventId=${eventId}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/recommendations?eventId=${eventId}`, {
+      headers: {
+        'X-User-Id': process.env.NEXT_PUBLIC_DEV_USER_ID || '',
+      },
+    })
       .then(r => r.json())
       .then(reco => setItems(reco?.items || []))
       .catch(() => setMessage('API non configurée'));

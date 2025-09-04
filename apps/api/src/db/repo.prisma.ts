@@ -54,15 +54,34 @@ export function createPrismaRepos(prisma: PrismaClient): Repos {
           include: { items: true },
         });
       },
+      async findAll(userId) {
+        return prisma.recommendation.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'desc' },
+          include: { items: true },
+        });
+      },
     },
     orders: {
       async create(data) {
         return prisma.order.create({ data });
       },
+      async findAll(userId) {
+        return prisma.order.findMany({
+          where: { userId },
+          orderBy: { createdAt: 'desc' },
+        });
+      },
     },
     auditLog: {
       async create(data) {
         await prisma.auditLog.create({ data });
+      },
+      async findLatest(kind) {
+        return prisma.auditLog.findFirst({
+          where: { kind },
+          orderBy: { createdAt: 'desc' },
+        });
       },
     },
   };

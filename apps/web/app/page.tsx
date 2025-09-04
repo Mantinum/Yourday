@@ -1,3 +1,7 @@
 export default function Home() {
-  return <a href="/dashboard">Dashboard</a>;
+  return (
+    <div>
+      <a href="/dashboard">Dashboard</a> | <a href="/admin/status">Status</a>
+    </div>
+  );
 }

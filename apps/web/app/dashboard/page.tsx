@@ -7,7 +7,11 @@ export default function Dashboard() {
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/events`)
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/events`, {
+      headers: {
+        'X-User-Id': process.env.NEXT_PUBLIC_DEV_USER_ID || '',
+      },
+    })
       .then(r => r.json())
       .then(setEvents)
       .catch(() => setMessage('API non configurée'));
@@ -17,9 +21,13 @@ export default function Dashboard() {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/recommendations/run`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Id': process.env.NEXT_PUBLIC_DEV_USER_ID || '',
+        },
         body: JSON.stringify({ eventId: id }),
       });
+      setMessage('Recommandation générée');
     } catch {
       setMessage('API non configurée');
     }
@@ -29,9 +37,13 @@ export default function Dashboard() {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/orders/egift`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ eventId: id, amountEur: 10 }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-User-Id': process.env.NEXT_PUBLIC_DEV_USER_ID || '',
+        },
+        body: JSON.stringify({ eventId: id, amountEur: events.find(e => e.id === id)?.budgetEur || 0 }),
       });
+      setMessage('E-gift envoyé');
     } catch {
       setMessage('API non configurée');
     }

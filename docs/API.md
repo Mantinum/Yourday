@@ -1,5 +1,17 @@
 # API
 
+## Health
+### GET /health
+```bash
+curl $BASE_URL/health
+```
+
+## Status
+### GET /status
+```bash
+curl $BASE_URL/status
+```
+
 ## Recipients
 ### POST /recipients
 ```bash

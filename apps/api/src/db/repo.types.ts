@@ -17,14 +17,17 @@ export interface EventsRepo {
 export interface RecommendationsRepo {
   create(data: any, items: any[]): Promise<any>;
   findByEvent(eventId: string): Promise<any | null>;
+  findAll(userId: string): Promise<any[]>;
 }
 
 export interface OrdersRepo {
   create(data: any): Promise<any>;
+  findAll(userId: string): Promise<any[]>;
 }
 
 export interface AuditLogRepo {
   create(data: any): Promise<void>;
+  findLatest(kind: string): Promise<any | null>;
 }
 
 export interface Repos {

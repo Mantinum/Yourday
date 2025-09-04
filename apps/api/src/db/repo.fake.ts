@@ -67,6 +67,11 @@ export function createFakeRepos(): Repos {
         const recs = Array.from(recommendations.values()).filter(r => r.eventId === eventId);
         return recs.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))[0] || null;
       },
+      async findAll(userId) {
+        return Array.from(recommendations.values())
+          .filter(r => r.userId === userId)
+          .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+      },
     },
     orders: {
       async create(data) {
@@ -74,10 +79,20 @@ export function createFakeRepos(): Repos {
         orders.set(ord.id, ord);
         return ord;
       },
+      async findAll(userId) {
+        return Array.from(orders.values())
+          .filter(o => o.userId === userId)
+          .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+      },
     },
     auditLog: {
       async create(data) {
         auditLogs.push({ id: id(), createdAt: new Date().toISOString(), ...data });
+      },
+      async findLatest(kind) {
+        return auditLogs
+          .filter(a => a.kind === kind)
+          .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1))[0] || null;
       },
     },
   };
