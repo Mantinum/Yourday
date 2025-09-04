@@ -21,15 +21,10 @@ export default function StatusPage() {
       <p>API: {process.env.NEXT_PUBLIC_API_BASE_URL}</p>
       <p>X-User-Id: {process.env.NEXT_PUBLIC_DEV_USER_ID || 'none'}</p>
       <div>DB: {data.db ? 'ok' : 'ko'}</div>
-      <div>Redis: {data.redis ? 'ok' : 'ko'}</div>
       <div>Fake DB: {data.fakeDb ? 'on' : 'off'}</div>
       <div>
         Counts: users {data.counts.users}, recipients {data.counts.recipients}, events {data.counts.events},
         recommendations {data.counts.recommendations}, orders {data.counts.orders}
-      </div>
-      <div>
-        Last job: {data.last.job || 'none'}, last recommendation: {data.last.recommendation || 'none'}, last order:{' '}
-        {data.last.order || 'none'}
       </div>
       <pre>{JSON.stringify(data.flags, null, 2)}</pre>
     </div>

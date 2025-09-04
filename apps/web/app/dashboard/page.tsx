@@ -6,7 +6,7 @@ export default function Dashboard() {
   const [events, setEvents] = useState<any[]>([]);
   const [message, setMessage] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = () => {
     fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/events`, {
       headers: {
         'X-User-Id': process.env.NEXT_PUBLIC_DEV_USER_ID || '',
@@ -15,6 +15,10 @@ export default function Dashboard() {
       .then(r => r.json())
       .then(setEvents)
       .catch(() => setMessage('API non configurée'));
+  };
+
+  useEffect(() => {
+    load();
   }, []);
 
   const runReco = async (id: string) => {
@@ -52,16 +56,27 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Dashboard</h1>
-      <ul>
-        {events.map(e => (
-          <li key={e.id}>
-            {e.type} - {e.date}
-            <button onClick={() => runReco(e.id)}>Générer reco</button>
-            <button onClick={() => sendEgift(e.id)}>Envoyer e-gift (test)</button>
-            <Link href={`/recommendations/${e.id}`}>Voir recommandations</Link>
-          </li>
-        ))}
-      </ul>
+      {events.length === 0 ? (
+        <button
+          onClick={async () => {
+            await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/dev/seed`, { method: 'POST' });
+            load();
+          }}
+        >
+          Seed demo
+        </button>
+      ) : (
+        <ul>
+          {events.map(e => (
+            <li key={e.id}>
+              {e.type} - {e.date}
+              <button onClick={() => runReco(e.id)}>Générer reco</button>
+              <button onClick={() => sendEgift(e.id)}>Envoyer e-gift (test)</button>
+              <Link href={`/recommendations/${e.id}`}>Voir recommandations</Link>
+            </li>
+          ))}
+        </ul>
+      )}
       {message && <div>{message}</div>}
     </div>
   );

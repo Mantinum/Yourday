@@ -1,28 +1,26 @@
 import { Injectable } from '@nestjs/common';
-import { getRepos } from '../db/repo.factory';
 import { RecipientCreateDto } from '@yourday/shared/src/dto';
-
-const repos = getRepos();
+import { fakeRepo } from '../fake/fake-repo.js';
 
 @Injectable()
 export class RecipientsService {
   create(userId: string, dto: RecipientCreateDto) {
-    return repos.recipients.create({ ...dto, userId });
+    return fakeRepo.recipients.create({ ...dto, userId });
   }
 
   findAll(userId: string) {
-    return repos.recipients.findAll(userId);
+    return fakeRepo.recipients.findAll(userId);
   }
 
   findOne(id: string) {
-    return repos.recipients.findById(id);
+    return fakeRepo.recipients.findById(id);
   }
 
   update(id: string, dto: Partial<RecipientCreateDto>) {
-    return repos.recipients.update(id, dto);
+    return fakeRepo.recipients.update(id, dto);
   }
 
   remove(id: string) {
-    return repos.recipients.remove(id);
+    return fakeRepo.recipients.remove(id);
   }
 }

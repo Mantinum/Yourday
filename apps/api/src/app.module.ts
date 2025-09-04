@@ -5,8 +5,17 @@ import { RecommendationsModule } from './recommendations/recommendations.module.
 import { OrdersModule } from './orders/orders.module.js';
 import { WebhooksModule } from './webhooks/webhooks.module.js';
 import { StatusModule } from './status/status.module.js';
+import { DevModule } from './dev/dev.module.js';
 
 @Module({
-  imports: [RecipientsModule, EventsModule, RecommendationsModule, OrdersModule, WebhooksModule, StatusModule],
+  imports: [
+    RecipientsModule,
+    EventsModule,
+    RecommendationsModule,
+    OrdersModule,
+    WebhooksModule,
+    StatusModule,
+    DevModule,
+  ],
 })
 export class AppModule {}

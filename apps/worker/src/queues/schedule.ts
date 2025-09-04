@@ -2,16 +2,15 @@ import { Queue, Worker, JobsOptions } from 'bullmq';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc.js';
 import timezone from 'dayjs/plugin/timezone.js';
-import { getRepos } from '../../api/src/db/repo.factory';
-import { RecommendationsService } from '../../api/src/recommendations/recommendations.service';
-import { OrdersService } from '../../api/src/orders/orders.service';
+import { fakeRepo } from '../../api/src/fake/fake-repo.js';
+import { RecommendationsService } from '../../api/src/recommendations/recommendations.service.js';
+import { OrdersService } from '../../api/src/orders/orders.service.js';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 const TZ = 'Europe/Paris';
 
 const queue = new Queue('schedule');
-const repos = getRepos();
 const recoService = new RecommendationsService();
 const orderService = new OrdersService();
 
@@ -28,16 +27,16 @@ export async function scheduleForEvent(eventId: string, runDate: Date) {
     backoff: { type: 'exponential', delay: 1000 },
   };
   await queue.add('generate', { eventId }, opts);
-  await repos.auditLog.create({ kind: 'JOB', message: `scheduled ${jobId}` });
+  await fakeRepo.auditLog.create({ kind: 'JOB', message: `scheduled ${jobId}` });
 }
 
 export const worker = new Worker('schedule', async job => {
   const eventId = (job.data as any).eventId as string;
-  const event = await repos.events.findById(eventId);
+  const event = await fakeRepo.events.findById(eventId);
   if (!event) return;
   await recoService.generateForEvent(eventId);
   if (process.env.DEV_AUTO_EGIFT === 'true') {
     await orderService.createEgift(event.userId, eventId, event.budgetEur);
   }
-  await repos.auditLog.create({ kind: 'JOB', message: `processed ${job.id}` });
+  await fakeRepo.auditLog.create({ kind: 'JOB', message: `processed ${job.id}` });
 });

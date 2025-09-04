@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { readFileSync } from 'fs';
 import path from 'path';
-import { getRepos } from '../db/repo.factory';
-
-const repos = getRepos();
+import { fakeRepo } from '../fake/fake-repo.js';
 const fixturesPath = path.join(__dirname, 'integrations', 'amazon', 'fixtures.json');
 const fixtures = JSON.parse(readFileSync(fixturesPath, 'utf-8'));
 
 @Injectable()
 export class RecommendationsService {
   async generateForEvent(eventId: string) {
-    const event = await repos.events.findById(eventId);
+    const event = await fakeRepo.events.findById(eventId);
     if (!event) throw new Error('event not found');
     const recipient = event.recipient || { interests: [], avoid: [] };
     const products = fixtures.filter((p: any) =>
@@ -26,11 +24,11 @@ export class RecommendationsService {
       })
       .sort((a: any, b: any) => b.score - a.score)
       .slice(0, 5);
-    const recommendation = await repos.recommendations.create(
+    const recommendation = await fakeRepo.recommendations.create(
       { userId: event.userId, eventId, createdAt: new Date().toISOString() },
       scored,
     );
-    await repos.auditLog.create({
+    await fakeRepo.auditLog.create({
       userId: event.userId,
       kind: 'JOB',
       message: `generated recommendations for ${eventId}`,
@@ -43,7 +41,7 @@ export class RecommendationsService {
   }
 
   findByEvent(eventId: string) {
-    return repos.recommendations.findByEvent(eventId);
+    return fakeRepo.recommendations.findByEvent(eventId);
   }
 }
 

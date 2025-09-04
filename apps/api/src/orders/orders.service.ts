@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
-import { getRepos } from '../db/repo.factory';
-
-const repos = getRepos();
+import { fakeRepo } from '../fake/fake-repo.js';
 
 @Injectable()
 export class OrdersService {
   async createEgift(userId: string, eventId: string, amountEur: number) {
-    const order = await repos.orders.create({
+    const order = await fakeRepo.orders.create({
       userId,
       eventId,
       kind: 'egift',
@@ -16,7 +13,7 @@ export class OrdersService {
       payload: { provider: 'incentives_stub' },
       createdAt: new Date().toISOString(),
     });
-    await repos.auditLog.create({
+    await fakeRepo.auditLog.create({
       userId,
       kind: 'ORDER',
       message: `created egift for ${eventId}`,

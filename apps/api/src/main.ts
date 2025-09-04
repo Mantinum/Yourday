@@ -1,10 +1,13 @@
+import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module.js';
+import { DevUserMiddleware } from './common/auth/dev-user.middleware.js';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
+  app.use(new DevUserMiddleware().use);
 
   const config = new DocumentBuilder()
     .setTitle('Yourday API')
