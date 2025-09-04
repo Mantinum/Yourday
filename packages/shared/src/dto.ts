@@ -1,9 +1,12 @@
 export interface RecipientCreateDto {
-  name: string;
-  email: string;
+  fullName: string;
+  email?: string;
 }
 
 export interface EventCreateDto {
-  name: string;
+  recipientId: string;
+  type: string;
   date: string;
+  budgetEur: number;
+  notes?: string;
 }

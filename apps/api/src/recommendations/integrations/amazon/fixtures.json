@@ -1,0 +1,12 @@
+[
+  {"asin":"A1","title":"Mug ChatGPT","url":"https://amazon.example/mug","priceEur":15,"rating":4.5,"categories":["coffee","office"]},
+  {"asin":"A2","title":"T-shirt Dev","url":"https://amazon.example/tshirt","priceEur":25,"rating":4.2,"categories":["clothing","dev"]},
+  {"asin":"A3","title":"Cahier Premium","url":"https://amazon.example/notebook","priceEur":12,"rating":4.8,"categories":["office","paper"]},
+  {"asin":"A4","title":"Stylo Luxe","url":"https://amazon.example/pen","priceEur":30,"rating":4.0,"categories":["office","gift"]},
+  {"asin":"A5","title":"Carte Cadeau","url":"https://amazon.example/giftcard","priceEur":50,"rating":4.9,"categories":["gift","digital"]},
+  {"asin":"A6","title":"Jeu de Société","url":"https://amazon.example/boardgame","priceEur":40,"rating":4.7,"categories":["games","family"]},
+  {"asin":"A7","title":"Livre Fantasy","url":"https://amazon.example/book","priceEur":20,"rating":4.3,"categories":["books","fantasy"]},
+  {"asin":"A8","title":"Casque Audio","url":"https://amazon.example/headphones","priceEur":80,"rating":4.6,"categories":["electronics","audio"]},
+  {"asin":"A9","title":"Lego Set","url":"https://amazon.example/lego","priceEur":60,"rating":4.8,"categories":["toys","building"]},
+  {"asin":"A10","title":"Bougie Senteur","url":"https://amazon.example/candle","priceEur":18,"rating":4.1,"categories":["home","relax"]}
+]

@@ -8,103 +8,141 @@ datasource db {
 }
 
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
-  recipients Recipient[]
-  events    Event[]
-  orders    Order[]
-  jobs      Job[]
-  auditLogs AuditLog[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id             String        @id @default(uuid())
+  email          String        @unique
+  recipients     Recipient[]
+  events         Event[]
+  paymentMethods PaymentMethod[]
+  orders         Order[]
+  jobs           Job[]
+  auditLogs      AuditLog[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
 }
 
 model Recipient {
   id        String   @id @default(uuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  name      String
-  email     String
-  events    Event[]
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName  String
+  birthday  DateTime?
+  interests String[] @default([])
+  avoid     String[] @default([])
+  sizes     Json?
+  email     String?
+  address   Json?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  events    Event[]
 
   @@index([userId])
 }
 
 model Event {
-  id            String   @id @default(uuid())
-  userId        String
-  user          User     @relation(fields: [userId], references: [id])
-  recipientId   String?
-  recipient     Recipient? @relation(fields: [recipientId], references: [id])
-  name          String
-  date          DateTime
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipientId String
+  recipient   Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+  type        String
+  date        DateTime
+  leadDays    Int       @default(3)
+  budgetEur   Int
+  notes       String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   recommendations Recommendation[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  orders      Order[]
 
   @@index([userId])
+  @@index([recipientId])
+  @@index([date])
 }
 
 model Recommendation {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  eventId   String
-  event     Event    @relation(fields: [eventId], references: [id])
-  items     RecommendationItem[]
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  status     String   @default("draft")
+  createdAt  DateTime @default(now())
+  items      RecommendationItem[]
 
   @@index([userId])
+  @@index([eventId])
 }
 
 model RecommendationItem {
-  id               String @id @default(uuid())
+  id               String   @id @default(uuid())
   recommendationId String
-  recommendation   Recommendation @relation(fields: [recommendationId], references: [id])
-  product          String
-  data             Json
+  recommendation   Recommendation @relation(fields: [recommendationId], references: [id], onDelete: Cascade)
+  asin             String?
+  title            String
+  url              String
+  image            String?
+  priceEur         Int?
+  rating           Float?
+  categories       String[] @default([])
+  score            Float    @default(0)
+  metadata         Json?
 }
 
 model Order {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  status    String
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  kind       String
+  amountEur  Int
+  status     String   @default("created")
+  providerId String?
+  payload    Json?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@index([userId])
+  @@index([eventId])
+  @@index([status])
 }
 
 model PaymentMethod {
-  id        String @id @default(uuid())
-  userId    String
-  user      User @relation(fields: [userId], references: [id])
-  provider  String
-  token     String
-  createdAt DateTime @default(now())
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  stripePmId String   @unique
+  brand      String?
+  last4      String?
+  expMonth   Int?
+  expYear    Int?
+  createdAt  DateTime @default(now())
 
   @@index([userId])
 }
 
 model Job {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
+  kind      String
   userId    String?
-  user      User? @relation(fields: [userId], references: [id])
-  type      String
   payload   Json
+  runAt     DateTime
+  status    String   @default("queued")
+  attempts  Int      @default(0)
+  lastError String?
   createdAt DateTime @default(now())
 
   @@index([userId])
+  @@index([status])
 }
 
 model AuditLog {
-  id        String @id @default(uuid())
+  id        String   @id @default(uuid())
   userId    String?
-  user      User? @relation(fields: [userId], references: [id])
-  action    String
-  data      Json?
+  user      User?    @relation(fields: [userId], references: [id])
+  kind      String
+  message   String
+  context   Json?
   createdAt DateTime @default(now())
 
   @@index([userId])

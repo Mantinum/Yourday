@@ -13,3 +13,14 @@ export enum OrderStatus {
   Sent = 'sent',
   Failed = 'failed',
 }
+
+export interface RecommendationItem {
+  asin?: string;
+  title: string;
+  url: string;
+  image?: string;
+  priceEur?: number;
+  rating?: number;
+  categories?: string[];
+  score: number;
+}

@@ -1,15 +1,38 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function Dashboard() {
+  const [events, setEvents] = useState<any[]>([]);
   const [message, setMessage] = useState<string | null>(null);
-  const events = [{ id: 1, name: 'Anniversaire', date: '2024-06-01' }];
 
-  const callApi = async (path: string) => {
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/events`)
+      .then(r => r.json())
+      .then(setEvents)
+      .catch(() => setMessage('API non configurée'));
+  }, []);
+
+  const runReco = async (id: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`);
-      await res.json();
-    } catch (e) {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/recommendations/run`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: id }),
+      });
+    } catch {
+      setMessage('API non configurée');
+    }
+  };
+
+  const sendEgift = async (id: string) => {
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/orders/egift`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ eventId: id, amountEur: 10 }),
+      });
+    } catch {
       setMessage('API non configurée');
     }
   };
@@ -20,9 +43,10 @@ export default function Dashboard() {
       <ul>
         {events.map(e => (
           <li key={e.id}>
-            {e.name} - {e.date}
-            <button onClick={() => callApi('/recommendations/run')}>Générer reco</button>
-            <button onClick={() => callApi('/orders/egift')}>Envoyer e-gift (test)</button>
+            {e.type} - {e.date}
+            <button onClick={() => runReco(e.id)}>Générer reco</button>
+            <button onClick={() => sendEgift(e.id)}>Envoyer e-gift (test)</button>
+            <Link href={`/recommendations/${e.id}`}>Voir recommandations</Link>
           </li>
         ))}
       </ul>
