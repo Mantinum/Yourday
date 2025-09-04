@@ -1,16 +1,13 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { createRemoteJWKSet, jwtVerify } from 'jose';
+// import { createRemoteJWKSet, jwtVerify } from 'jose';
 
-async function verifyToken(token: string): Promise<string | null> {
-  // TODO: use SUPABASE_JWKS_URL
-  try {
-    const JWKS = createRemoteJWKSet(new URL(process.env.SUPABASE_JWKS_URL || ''));
-    const { payload } = await jwtVerify(token, JWKS);
-    return (payload as any).sub as string;
-  } catch {
-    return null;
-  }
+async function verifyToken(_token: string): Promise<string | null> {
+  // TODO: implement verification against SUPABASE_JWKS_URL
+  // const JWKS = createRemoteJWKSet(new URL(process.env.SUPABASE_JWKS_URL!));
+  // const { payload } = await jwtVerify(token, JWKS);
+  // return (payload as any).sub as string;
+  return null;
 }
 
 @Injectable()

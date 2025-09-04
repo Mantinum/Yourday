@@ -1,7 +1,10 @@
 # Security
 
 ## Supabase JWT
-Auth tokens are verified against Supabase JWKS. In development the middleware falls back to a stubbed user id.
+Auth tokens should be verified against Supabase JWKS (`SUPABASE_JWKS_URL`). In development the API accepts an `X-User-Id` header and defaults to a stubbed user id when none is provided.
+
+## Job idempotence
+Worker jobs are queued with deterministic ids (`reco:${eventId}:${yyyy-mm-dd}`) and each execution is recorded in `AuditLog` to prevent duplicates.
 
 ## Row Level Security
 All tables include a `userId` column and are protected by RLS policies isolating data per user. Draft policies are available in `docs/RLS.sql`.

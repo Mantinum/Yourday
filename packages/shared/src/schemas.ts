@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { RecommendationItem } from './types.js';
 
 export const PreferencesSchema = z.object({
   like: z.array(z.string()).default([]),

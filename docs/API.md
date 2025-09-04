@@ -5,6 +5,7 @@
 ```bash
 curl -X POST $BASE_URL/recipients \
   -H "Content-Type: application/json" \
+  -H "X-User-Id: user1" \
   -d '{"fullName":"Alice"}'
 ```
 
@@ -13,6 +14,7 @@ curl -X POST $BASE_URL/recipients \
 ```bash
 curl -X POST $BASE_URL/events \
   -H "Content-Type: application/json" \
+  -H "X-User-Id: user1" \
   -d '{"recipientId":"rec_1","type":"birthday","date":"2024-06-01","budgetEur":50}'
 ```
 
@@ -21,6 +23,7 @@ curl -X POST $BASE_URL/events \
 ```bash
 curl -X POST $BASE_URL/recommendations/run \
   -H "Content-Type: application/json" \
+  -H "X-User-Id: user1" \
   -d '{"eventId":"evt_1"}'
 ```
 
@@ -29,5 +32,6 @@ curl -X POST $BASE_URL/recommendations/run \
 ```bash
 curl -X POST $BASE_URL/orders/egift \
   -H "Content-Type: application/json" \
+  -H "X-User-Id: user1" \
   -d '{"eventId":"evt_1","amountEur":20}'
 ```
