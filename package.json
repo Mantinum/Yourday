@@ -3,5 +3,30 @@
   "private": true,
   "engines": { "node": ">=20" },
   "workspaces": ["apps/*", "packages/*"],
-  "scripts": { "dev": "echo 'todo: set up turbo or pnpm -r dev'" }
+  "scripts": {
+    "db:migrate": "pnpm prisma migrate dev",
+    "db:seed": "pnpm exec ts-node prisma/seed.ts",
+    "dev": "concurrently -k \"pnpm --filter @yourday/api start:dev\" \"pnpm --filter @yourday/web dev\"",
+    "demo:offline": "cross-env OFFLINE_FAKE_DB=true AMAZON_USE_FIXTURES=true TZ=Europe/Paris concurrently -k \"pnpm --filter @yourday/api start:dev\" \"pnpm --filter @yourday/web dev\"",
+    "build": "pnpm -w build",
+    "test": "pnpm -w test",
+    "start:worker": "pnpm --filter @yourday/worker start"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "@nestjs/platform-express": "^10.0.0",
+    "dayjs": "^1.11.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.8.1",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.0.1",
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.3.0"
+  }
 }
