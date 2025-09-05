@@ -13,6 +13,7 @@ Web: http://localhost:3000/dashboard  | API: http://localhost:4000/status
 
 ## Scripts
 
+
 - `pnpm dev` – démarre API + Web
 - `pnpm build` – build des apps
 - `pnpm test` – lance les tests
